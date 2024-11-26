@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Wizardsoft.API.Models;
 using Wizardsoft.DAL.Contracts;
 using Wizardsoft.DAL.Models;
 
@@ -6,11 +7,11 @@ namespace Wizardsoft.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class TreeNodesController : ControllerBase
+    public class NodesController : ControllerBase
     {
-        private readonly ITreeNodeRepository _repository;
+        private readonly INodeRepository _repository;
 
-        public TreeNodesController(ITreeNodeRepository repository)
+        public NodesController(INodeRepository repository)
         {
             _repository = repository;
         }
@@ -21,7 +22,7 @@ namespace Wizardsoft.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<TreeNode>> Get() => Ok(_repository.GetAll());
+        public ActionResult<IEnumerable<Node>> Get() => Ok(_repository.GetAll());
 
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace Wizardsoft.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public ActionResult<TreeNode> Get(int id)
+        public ActionResult<Node> Get(int id)
         {
             var node = _repository.GetById(id);
             if (node == null) return NotFound();
@@ -41,24 +42,24 @@ namespace Wizardsoft.API.Controllers
         /// <summary>
         /// Создать новый узел
         /// </summary>
-        /// <param name="node"></param>
-        /// <returns></returns>
+        /// <param name="inputNode"></param>
+        /// <returns>id узла</returns>
         [HttpPost]
-        public ActionResult<TreeNode> Post([FromBody] TreeNode node)
+        public ActionResult<int> Post([FromBody] CreateNodeRequest inputNode)
         {
-            if (node == null)
+            if (inputNode == null)
             {
-                return BadRequest("Node cannot be null.");
+                return BadRequest("Узел не был создан");
             }
 
-            // Дополнительная проверка на обязательные поля
-            if (string.IsNullOrEmpty(node.Name))
+            if (!ModelState.IsValid)
             {
-                return BadRequest("The Name field is required.");
+                return BadRequest(ModelState);
             }
 
-            _repository.Create(node);
-            return CreatedAtAction(nameof(Get), new { id = node.Id }, node);
+            Node node = inputNode.ToNode();
+            int id = _repository.Create(node);
+            return Ok(id);
         }
 
 
@@ -67,15 +68,21 @@ namespace Wizardsoft.API.Controllers
         /// Обновить узел
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="node"></param>
+        /// <param name="inputNode"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] TreeNode node)
+        public ActionResult<NodeResponse> Put([FromBody] Node inputNode)
         {
-            if (id != node.Id) return BadRequest();
+            if (inputNode == null)
+            {
+                return BadRequest("Узел не был изменен");
+            }
+            else
+            {
+                Node node = _repository.Update(inputNode);
+                return Ok(node.ToNodeResponse());
+            }
 
-            _repository.Update(node);
-            return NoContent();
         }
 
 
@@ -85,10 +92,10 @@ namespace Wizardsoft.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public ActionResult<int> Delete(int id)
         {
             _repository.Delete(id);
-            return NoContent();
+            return Ok(id);
         }
     }
 

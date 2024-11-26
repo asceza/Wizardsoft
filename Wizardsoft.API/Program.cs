@@ -12,7 +12,7 @@ namespace Wizardsoft.API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
-            builder.Services.AddSingleton<ITreeNodeRepository, InMemoryTreeNodeRepository>();
+            builder.Services.AddSingleton<INodeRepository, NodeRepositoryDAL>();
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(c =>
             {
