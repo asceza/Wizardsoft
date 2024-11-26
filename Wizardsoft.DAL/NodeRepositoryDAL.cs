@@ -24,7 +24,39 @@ namespace Wizardsoft.DAL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public Node GetById(int id) => _nodes.FirstOrDefault(n => n.Id == id);
+        //public Node GetById(int id) => _nodes.FirstOrDefault(n => n.Id == id);
+        public Node GetById(int id)
+        {
+            // Вызов рекурсивной функции для поиска узла по id
+            return FindNodeById(_nodes, id);
+        }
+
+        private Node FindNodeById(IEnumerable<Node> nodes, int id)
+        {
+            foreach (var node in nodes)
+            {
+                if (node.Id == id)
+                {
+                    return node;
+                }
+                else
+                {
+                    // Рекурсивно ищем в дочерних узлах
+                    var foundNode = FindNodeById(node.Children, id);
+                    if (foundNode != null)
+                    {
+                        return foundNode;
+                    }
+                }
+            }
+
+            // Если узел не найден, возвращаем null
+            return null;
+        }
+
+
+
+
 
 
         /// <summary>

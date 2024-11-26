@@ -5,7 +5,7 @@ namespace Wizardsoft.DAL.Models
 {
     public class Node
     {
-        public int Id { get; private set; }
+        public int Id { get; set; }
 
         [Required(ErrorMessage = "Поле /Имя/ обязательно для заполнения.")]
         [StringLength(100, ErrorMessage = "Длина поля /Имя/ не может превышать 100 символов.")]

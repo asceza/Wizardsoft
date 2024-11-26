@@ -39,7 +39,7 @@ namespace Wizardsoft.API.Models
                 newNode.Id = node.Id;
                 newNode.Name = node.Name;
                 //newNode.ParentId = node.ParentId;
-                newNode.Children = node.Children;
+                newNode.Children = node.Children.ToList();
                 return newNode;
             }
         }
