@@ -1,0 +1,6 @@
+@Wizardsoft.API_HostAddress = http://localhost:5108
+
+GET {{Wizardsoft.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
