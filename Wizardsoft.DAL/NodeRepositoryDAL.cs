@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Wizardsoft.DAL.Contracts;
+﻿using Wizardsoft.DAL.Contracts;
 using Wizardsoft.DAL.Models;
 
 namespace Wizardsoft.DAL
@@ -24,14 +19,12 @@ namespace Wizardsoft.DAL
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        //public Node GetById(int id) => _nodes.FirstOrDefault(n => n.Id == id);
-        public Node GetById(int id)
+        public Node GetById(Guid id)
         {
-            // Вызов рекурсивной функции для поиска узла по id
             return FindNodeById(_nodes, id);
         }
 
-        private Node FindNodeById(IEnumerable<Node> nodes, int id)
+        private Node FindNodeById(IEnumerable<Node> nodes, Guid id)
         {
             foreach (var node in nodes)
             {
@@ -41,7 +34,7 @@ namespace Wizardsoft.DAL
                 }
                 else
                 {
-                    // Рекурсивно ищем в дочерних узлах
+                    // в дочерних узлах
                     var foundNode = FindNodeById(node.Children, id);
                     if (foundNode != null)
                     {
@@ -50,22 +43,18 @@ namespace Wizardsoft.DAL
                 }
             }
 
-            // Если узел не найден, возвращаем null
+            // если узел не найден
             return null;
         }
-
-
-
-
+        //public Node GetById(int id) => _nodes.FirstOrDefault(n => n.Id == id);
 
 
         /// <summary>
         /// Создать узел
         /// </summary>
         /// <param name="node"></param>
-        public int Create(Node node)
+        public Guid Create(Node node)
         {
-            node.Id = _nodes.Count + 1;
             _nodes.Add(node);
             return node.Id;
         }
@@ -75,15 +64,18 @@ namespace Wizardsoft.DAL
         /// Обновить узел
         /// </summary>
         /// <param name="node"></param>
-        public Node Update(Node node)
+        public Result<Node> Update(Node node)
         {
             var existingNode = GetById(node.Id);
             if (existingNode != null)
             {
                 existingNode.Name = node.Name;
-                //existingNode.ParentId = node.ParentId;
+                return Result<Node>.Success(node);
             }
-            return node;
+            else
+            {
+                return Result<Node>.Failure("Узел с таким id не найден");
+            }
         }
 
 
@@ -91,12 +83,17 @@ namespace Wizardsoft.DAL
         /// Удалить узел по id
         /// </summary>
         /// <param name="id"></param>
-        public void Delete(int id)
+        public bool Delete(Guid id)
         {
             var node = GetById(id);
             if (node != null)
             {
-                _nodes.Remove(node);
+                bool isRemoved = _nodes.Remove(node);
+                return isRemoved;
+            }
+            else
+            {
+                return false;
             }
         }
     }

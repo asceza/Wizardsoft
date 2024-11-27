@@ -31,10 +31,14 @@ namespace Wizardsoft.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public ActionResult<Node> Get(int id)
+        public ActionResult<Node> Get(Guid id)
         {
             var node = _repository.GetById(id);
-            if (node == null) return NotFound();
+            if (node == null)
+            {
+                return NotFound();
+            }
+
             return Ok(node);
         }
 
@@ -58,19 +62,17 @@ namespace Wizardsoft.API.Controllers
             }
 
             Node node = inputNode.ToNode();
-            int id = _repository.Create(node);
+            Guid id = _repository.Create(node);
             return Ok(id);
         }
-
 
 
         /// <summary>
         /// Обновить узел
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="inputNode"></param>
         /// <returns></returns>
-        [HttpPut("{id}")]
+        [HttpPut]
         public ActionResult<NodeResponse> Put([FromBody] Node inputNode)
         {
             if (inputNode == null)
@@ -79,8 +81,15 @@ namespace Wizardsoft.API.Controllers
             }
             else
             {
-                Node node = _repository.Update(inputNode);
-                return Ok(node.ToNodeResponse());
+                var result = _repository.Update(inputNode);
+                if (result.IsSuccess)
+                {
+                    return Ok(result.Value.ToNodeResponse());
+                }
+                else
+                {
+                    return BadRequest(result.Error);
+                }
             }
 
         }
@@ -92,10 +101,17 @@ namespace Wizardsoft.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult<int> Delete(int id)
+        public ActionResult<int> Delete(Guid id)
         {
-            _repository.Delete(id);
-            return Ok(id);
+            bool isDeleted = _repository.Delete(id);
+            if (isDeleted)
+            {
+                return Ok(id);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 

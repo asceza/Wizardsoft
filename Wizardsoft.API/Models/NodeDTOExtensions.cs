@@ -15,7 +15,6 @@ namespace Wizardsoft.API.Models
             {
                 Node newNode = new Node();
                 newNode.Name = node.Name;
-                //newNode.ParentId = node.ParentId;
 
                 foreach(var child in node.Children)
                 {
@@ -38,7 +37,7 @@ namespace Wizardsoft.API.Models
                 NodeResponse newNode = new NodeResponse();
                 newNode.Id = node.Id;
                 newNode.Name = node.Name;
-                //newNode.ParentId = node.ParentId;
+
                 newNode.Children = node.Children.ToList();
                 return newNode;
             }
