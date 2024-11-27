@@ -24,6 +24,13 @@ namespace Wizardsoft.DAL
             return FindNodeById(_nodes, id);
         }
 
+
+        /// <summary>
+        /// Рекурсивный метод для поиска узла по id
+        /// </summary>
+        /// <param name="nodes"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private Node FindNodeById(IEnumerable<Node> nodes, Guid id)
         {
             foreach (var node in nodes)

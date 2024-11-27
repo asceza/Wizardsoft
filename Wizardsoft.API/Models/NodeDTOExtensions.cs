@@ -19,7 +19,6 @@ namespace Wizardsoft.API.Models
                 foreach(var child in node.Children)
                 {
                     newNode.Children.Add(child.ToNode());
-
                 }
                 return newNode;
             }

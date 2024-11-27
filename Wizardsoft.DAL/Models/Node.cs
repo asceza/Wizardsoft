@@ -5,7 +5,7 @@ namespace Wizardsoft.DAL.Models
 {
     public class Node
     {
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         [Required(ErrorMessage = "Поле /Имя/ обязательно для заполнения.")]
         [StringLength(100, ErrorMessage = "Длина поля /Имя/ не может превышать 100 символов.")]
@@ -20,6 +20,7 @@ namespace Wizardsoft.DAL.Models
             Id = Guid.NewGuid();
         }
 
+        // конструктор для тестирования
         public Node(string name, ICollection<Node> children)
         {
             Id = Guid.NewGuid();
