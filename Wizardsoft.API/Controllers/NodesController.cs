@@ -22,7 +22,7 @@ namespace Wizardsoft.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ActionResult<IEnumerable<Node>> Get() => Ok(_repository.GetAll());
+        public ActionResult<IEnumerable<Node>> Get() => Ok(_repository.GetAllNodes());
 
 
         /// <summary>
@@ -51,11 +51,6 @@ namespace Wizardsoft.API.Controllers
         [HttpPost]
         public ActionResult<int> Post([FromBody] CreateNodeRequest inputNode)
         {
-            if (inputNode == null)
-            {
-                return BadRequest("Узел не был создан");
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -75,12 +70,6 @@ namespace Wizardsoft.API.Controllers
         [HttpPut]
         public ActionResult<NodeResponse> Put([FromBody] Node inputNode)
         {
-            if (inputNode == null)
-            {
-                return BadRequest("Узел не был изменен");
-            }
-            else
-            {
                 var result = _repository.Update(inputNode);
                 if (result.IsSuccess)
                 {
@@ -90,8 +79,6 @@ namespace Wizardsoft.API.Controllers
                 {
                     return BadRequest(result.Error);
                 }
-            }
-
         }
 
 
@@ -101,7 +88,7 @@ namespace Wizardsoft.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public ActionResult<int> Delete(Guid id)
+        public ActionResult<Guid> Delete(Guid id)
         {
             bool isDeleted = _repository.Delete(id);
             if (isDeleted)

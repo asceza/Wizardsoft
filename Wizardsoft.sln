@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizardsoft.API", "Wizardsoft.API\Wizardsoft.API.csproj", "{40E5638F-1BC4-47FF-B540-CD8CE35B1F5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wizardsoft.API", "Wizardsoft.API\Wizardsoft.API.csproj", "{40E5638F-1BC4-47FF-B540-CD8CE35B1F5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizardsoft.DAL", "Wizardsoft.DAL\Wizardsoft.DAL.csproj", "{74DDC30C-5243-4D1F-93DA-026475569E51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wizardsoft.DAL", "Wizardsoft.DAL\Wizardsoft.DAL.csproj", "{74DDC30C-5243-4D1F-93DA-026475569E51}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wizardsoft.Tests", "Wizardsoft.Tests\Wizardsoft.Tests.csproj", "{ECD2A573-2EA8-42A4-83A2-B8D892ED8029}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{74DDC30C-5243-4D1F-93DA-026475569E51}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74DDC30C-5243-4D1F-93DA-026475569E51}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74DDC30C-5243-4D1F-93DA-026475569E51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECD2A573-2EA8-42A4-83A2-B8D892ED8029}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECD2A573-2EA8-42A4-83A2-B8D892ED8029}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECD2A573-2EA8-42A4-83A2-B8D892ED8029}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECD2A573-2EA8-42A4-83A2-B8D892ED8029}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

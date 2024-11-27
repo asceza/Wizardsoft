@@ -11,7 +11,7 @@ namespace Wizardsoft.DAL
         /// Получить все узлы
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Node> GetAll() => _nodes;
+        public IEnumerable<Node> GetAllNodes() => _nodes;
 
 
         /// <summary>
